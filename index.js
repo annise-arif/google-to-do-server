@@ -42,17 +42,6 @@ async function run() {
     }
   });
 
-  app.get("/todo/:id", async (req, res) => {
-    try {
-      const id = req.params.id;
-      const Id = await todoCollection.find({ _id: ObjectId(id) });
-      const isAdmin = user.role === "admin";
-      res.send({ admin: isAdmin });
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  });
-
   app.put("/todo/:id", async (req, res) => {
     try {
       const id = req.params.id;
@@ -62,6 +51,17 @@ async function run() {
       };
       const result = await todoCollection.updateOne(filter, updatedDoc);
       res.send(result);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
+  app.get("/todo/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const Id = await todoCollection.find({ _id: ObjectId(id) });
+      const isCompleted = user.role === "completed";
+      res.send({ Completed: isCompleted });
     } catch (error) {
       res.status(500).send(error);
     }
