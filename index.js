@@ -70,7 +70,7 @@ async function run() {
       const id = req.params.id;
       const filter = { _id: ObjectId(id) };
       const updatedDoc = {
-        $set: { role: "completed" },
+        $set: { todo },
       };
       const result = await todoCollection.updateOne(filter, updatedDoc);
       res.send(result);
