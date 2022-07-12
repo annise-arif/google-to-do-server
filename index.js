@@ -68,7 +68,7 @@ async function run() {
   app.delete("/todo/:id", async (req, res) => {
     try {
     const id = req.params.id;
-    const query = { _id: ObjectId(id) };
+    const query = {_id: ObjectId(id) };
     const result = await todoCollection.deleteOne(query);
     res.send(result);
   } catch (error) {
@@ -76,12 +76,26 @@ async function run() {
   }
   });
 
-  app.put("/todo/:id", async (req, res) => {
+  app.delete("/allTodo/:id", async (req, res) => {
+    try {
+    const id = req.params.id;
+    const query = {_id: ObjectId(id) };
+    const result = await CompletedTodoCollection.deleteOne(query);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+  });
+
+  app.put("/uptodo/:id", async (req, res) => {
     try {
       const id = req.params.id;
+      const updateTodo = req.body;
       const filter = { _id: ObjectId(id) };
       const updatedDoc = {
-        $set: { todo },
+        $set: { 
+          todo: updateTodo.text,
+         },
       };
       const result = await todoCollection.updateOne(filter, updatedDoc);
       res.send(result);
